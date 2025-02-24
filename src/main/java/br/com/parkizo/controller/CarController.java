@@ -24,4 +24,11 @@ public class CarController {
         return carService.createPark(car);
     }
 
+    @DeleteMapping("/pay/{id}")
+    public String finishPark(@PathVariable Long id) {
+        return carService.finishPark(id);
+    }
+
+
+
 }
