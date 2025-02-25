@@ -5,13 +5,11 @@ import br.com.parkizo.service.CarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
@@ -27,6 +25,17 @@ public class CarControllerUi {
         return "listCars";
     }
 
+    @GetMapping("/list/{id}")
+    public String getById(@PathVariable Long id, Model model) {
+        Optional<Car> car = carService.getById(id);
+        if(car.isPresent()) {
+            model.addAttribute("car", car.get());
+            model.addAttribute("totalTime", carService.getTotalTime(id));
+            return "carDetails";
+        }
+        return "redirect:/parkizo/car/list";
+    }
+
     @GetMapping("/register")
     public String registerACar(Model model) {
         model.addAttribute("car", new Car());
@@ -37,6 +46,12 @@ public class CarControllerUi {
     public String saveACarParked(@ModelAttribute Car car, RedirectAttributes redirectAttributes) {
         carService.createPark(car);
         redirectAttributes.addFlashAttribute("message", "Car saved successfully");
+        return "redirect:/parkizo/car/ui/list";
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteCar(@PathVariable Long id) {
+        carService.finishPark(id);
         return "redirect:/parkizo/car/ui/list";
     }
 
