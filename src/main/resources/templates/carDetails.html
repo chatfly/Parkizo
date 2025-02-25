@@ -79,7 +79,7 @@
         </tr>
         </tbody>
     </table>
-    <button class="button" th:data-total-time="${totalTime.orElse(0)}" onclick="pay(this)" th:href="@{/parkizo/car/ui/delete/{id}(id=${car.id})}">Pay</button>
+    <a class="button" th:data-total-time="${totalTime.orElse(0)}" onclick="pay(this)" th:href="@{/parkizo/car/ui/delete/{id}(id=${car.id})}">Pay</a>
 
     <script>
         function pay(button) {

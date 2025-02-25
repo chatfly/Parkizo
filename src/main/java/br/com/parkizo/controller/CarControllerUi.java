@@ -49,7 +49,7 @@ public class CarControllerUi {
         return "redirect:/parkizo/car/ui/list";
     }
 
-    @DeleteMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteCar(@PathVariable Long id) {
         carService.finishPark(id);
         return "redirect:/parkizo/car/ui/list";
