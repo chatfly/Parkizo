@@ -7,6 +7,7 @@ import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.grammars.hql.HqlParser;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,5 +39,19 @@ public class CarService {
         }
         return "Car with Id: " + id + " doesn't exists";
     }
+
+    public Optional<Integer> getTotalTime(Long id) {
+        Optional<Car> car = carRepository.findById(id);
+        if (car.isPresent()) {
+            LocalDateTime currentTime = LocalDateTime.now();
+            LocalDateTime arrivalTime = car.get().getArrivalTime();
+
+            Duration duration = Duration.between(arrivalTime, currentTime);
+
+            return Optional.of((int) Math.ceil(duration.toHours()));
+        }
+        return Optional.empty();
+    }
+
 
 }
