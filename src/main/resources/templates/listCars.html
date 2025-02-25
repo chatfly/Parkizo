@@ -11,10 +11,10 @@
         body{
             font-family: "JetBrains Mono", Arial, sans-serif;
         }
-        h1, a{
+        h1, #add{
             transition: 0.2s;
         }
-        a:hover, h1:hover{
+        #add:hover, h1:hover{
             margin-left: 20px;
         }
         th, td {
@@ -34,10 +34,22 @@
             text-transform: uppercase;
             font-size: 0.9em;
         }
+        .pay_link{
+            background-color: #04AA6D;
+            padding: 5px;
+            border-radius: 3px;
+            color: white;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .pay_link:hover{
+            background-color: #036040;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
-    <a th:href="@{/parkizo/car/ui/register}">ADD CAR</a>
+    <a th:href="@{/parkizo/car/ui/register}" id="add">ADD CAR</a>
     <h1>CARS PARKED</h1>
     <table>
         <thead>
@@ -45,6 +57,7 @@
                 <th>Id</th>
                 <th>License Plate</th>
                 <th>Arrival Time</th>
+                <th>INFO</th>
             </tr>
         </thead>
         <tbody>
@@ -52,6 +65,7 @@
                 <td th:text="${car.id}"></td>
                 <td th:text="${car.licensePlate}"></td>
                 <td th:text="${car.arrivalTime}"></td>
+                <td><a th:href="@{/parkizo/car/ui/list/{id}(id=${car.id})}" class="pay_link">Pay</a></td>
             </tr>
         </tbody>
     </table>

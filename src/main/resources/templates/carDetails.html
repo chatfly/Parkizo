@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Parking Manager</title>
+    <style th:inline="none">
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+        body{
+            font-family: "JetBrains Mono", Arial, sans-serif;
+        }
+        h1, a{
+            transition: 0.2s;
+        }
+        a:hover, h1:hover{
+            margin-left: 20px;
+        }
+        th, td {
+            padding: 1.2rem;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+            transition: 0.2s;
+        }
+        th:hover, td:hover {
+            scale: 1.05;
+        }
+
+        th {
+            background-color: #ecf0f1;
+            color: #29292e;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+
+        .button {
+            background-color: #04AA6D;
+            border: none;
+            color: white;
+            padding: 16px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 3px;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition: 0.2s;
+            cursor: pointer;
+            margin-top: 26px;
+        }
+
+        .button:hover{
+            background-color: #036040;
+            border-radius: 8px;
+        }
+
+    </style>
+</head>
+<body>
+    <a th:href="@{/parkizo/car/ui/list}">RETURN</a>
+    <h1>CAR DETAILS</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>License Plate</th>
+            <th>Arrival Time</th>
+            <th>Total Hours</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="car : ${car}">
+            <td th:text="${car.id}"></td>
+            <td th:text="${car.licensePlate}"></td>
+            <td th:text="${car.arrivalTime}"></td>
+            <td th:text="${totalTime.orElse('N/A')}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <button class="button" th:data-total-time="${totalTime.orElse(0)}" onclick="pay(this)" th:href="@{/parkizo/car/ui/delete/{id}(id=${car.id})}">Pay</button>
+
+    <script>
+        function pay(button) {
+            var totalTime = button.getAttribute("data-total-time");
+            alert(`Total hours spent: ${totalTime} \n Total cost: $${totalTime*2}`);
+        }
+    </script>
+</body>
+</html>
