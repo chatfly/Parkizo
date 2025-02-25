@@ -1,5 +1,8 @@
 package br.com.parkizo.controller;
 
+import br.com.parkizo.controller.mapper.CarMapper;
+import br.com.parkizo.controller.request.CarRequest;
+import br.com.parkizo.controller.response.CarResponse;
 import br.com.parkizo.entity.Car;
 import br.com.parkizo.service.CarService;
 import lombok.RequiredArgsConstructor;
@@ -20,14 +23,17 @@ public class CarControllerUi {
 
     @GetMapping("/list")
     public String getAll(Model model) {
-        List<Car> carList = carService.getAll();
+        List<CarResponse> carList = carService.getAll().stream()
+                .map(CarMapper::toCarResponse)
+                .toList();
         model.addAttribute("cars", carList);
         return "listCars";
     }
 
     @GetMapping("/list/{id}")
     public String getById(@PathVariable Long id, Model model) {
-        Optional<Car> car = carService.getById(id);
+        Optional<CarResponse> car = carService.getById(id)
+                .map(CarMapper::toCarResponse);
         if(car.isPresent()) {
             model.addAttribute("car", car.get());
             model.addAttribute("totalTime", carService.getTotalTime(id));
@@ -43,8 +49,8 @@ public class CarControllerUi {
     }
 
     @PostMapping("/save")
-    public String saveACarParked(@ModelAttribute Car car, RedirectAttributes redirectAttributes) {
-        carService.createPark(car);
+    public String saveACarParked(@ModelAttribute CarRequest car, RedirectAttributes redirectAttributes) {
+        carService.createPark(CarMapper.toCar(car));
         redirectAttributes.addFlashAttribute("message", "Car saved successfully");
         return "redirect:/parkizo/car/ui/list";
     }

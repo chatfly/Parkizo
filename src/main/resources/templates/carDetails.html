@@ -14,7 +14,7 @@
         h1, a{
             transition: 0.2s;
         }
-        a:hover, h1:hover{
+        h1:hover{
             margin-left: 20px;
         }
         th, td {
@@ -56,6 +56,17 @@
             border-radius: 8px;
         }
 
+        strong{
+            color: red;
+            transition: 0.2s
+        }
+
+        strong:hover{
+            color: #6e0000;
+            scale(1.4);
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
@@ -79,12 +90,15 @@
         </tr>
         </tbody>
     </table>
+
+    <p>TOTAL HOURS SPENT: <strong th:text="${totalTime.orElse(null)}"></strong> <strong>Hours</strong></p>
+    <p>TOTAL AMOUNT DUE: $<strong th:text="${totalTime.orElse(null)}"></strong></p>
+
     <a class="button" th:data-total-time="${totalTime.orElse(0)}" onclick="pay(this)" th:href="@{/parkizo/car/ui/delete/{id}(id=${car.id})}">Pay</a>
 
     <script>
-        function pay(button) {
-            var totalTime = button.getAttribute("data-total-time");
-            alert(`Total hours spent: ${totalTime} \n Total cost: $${totalTime*2}`);
+        async function pay(button) {
+            alert(`Car deleted with success!`);
         }
     </script>
 </body>

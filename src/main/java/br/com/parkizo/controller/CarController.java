@@ -1,5 +1,8 @@
 package br.com.parkizo.controller;
 
+import br.com.parkizo.controller.mapper.CarMapper;
+import br.com.parkizo.controller.request.CarRequest;
+import br.com.parkizo.controller.response.CarResponse;
 import br.com.parkizo.entity.Car;
 import br.com.parkizo.service.CarService;
 import lombok.RequiredArgsConstructor;
@@ -15,18 +18,22 @@ public class CarController {
     private final CarService carService;
 
     @GetMapping("/")
-    public List<Car> getAllCars() {
-        return carService.getAll();
+    public List<CarResponse> getAllCars() {
+        return carService.getAll()
+                .stream()
+                .map(CarMapper::toCarResponse)
+                .toList();
     }
 
     @PostMapping("/")
-    public Car createPark(@RequestBody Car car) {
-        return carService.createPark(car);
+    public CarResponse createPark(@RequestBody CarRequest car) {
+        Car parkCreated = carService.createPark(CarMapper.toCar(car));
+        return CarMapper.toCarResponse(parkCreated);
     }
 
     @DeleteMapping("/pay/{id}")
-    public String finishPark(@PathVariable Long id) {
-        return carService.finishPark(id);
+    public void finishPark(@PathVariable Long id) {
+        carService.finishPark(id);
     }
 
 
