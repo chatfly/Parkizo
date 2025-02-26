@@ -5,7 +5,10 @@ import br.com.parkizo.controller.request.CarRequest;
 import br.com.parkizo.controller.response.CarResponse;
 import br.com.parkizo.entity.Car;
 import br.com.parkizo.service.CarService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,24 +21,22 @@ public class CarController {
     private final CarService carService;
 
     @GetMapping("/")
-    public List<CarResponse> getAllCars() {
-        return carService.getAll()
+    public ResponseEntity<List<CarResponse>> getAllCars() {
+        return ResponseEntity.ok(carService.getAll()
                 .stream()
                 .map(CarMapper::toCarResponse)
-                .toList();
+                .toList());
     }
 
     @PostMapping("/")
-    public CarResponse createPark(@RequestBody CarRequest car) {
+    public ResponseEntity<CarResponse> createPark(@Valid @RequestBody CarRequest car) {
         Car parkCreated = carService.createPark(CarMapper.toCar(car));
-        return CarMapper.toCarResponse(parkCreated);
+        return ResponseEntity.status(HttpStatus.CREATED).body(CarMapper.toCarResponse(parkCreated));
     }
 
     @DeleteMapping("/pay/{id}")
-    public void finishPark(@PathVariable Long id) {
-        carService.finishPark(id);
+    public ResponseEntity finishPark(@PathVariable Long id) {
+        return ResponseEntity.ok(carService.finishPark(id));
     }
-
-
 
 }

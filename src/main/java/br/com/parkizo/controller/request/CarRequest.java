@@ -1,4 +1,6 @@
 package br.com.parkizo.controller.request;
 
-public record CarRequest(String licensePlate) {
+import jakarta.validation.constraints.NotEmpty;
+
+public record CarRequest(@NotEmpty(message = "License plate is required.") String licensePlate) {
 }

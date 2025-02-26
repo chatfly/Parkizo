@@ -31,13 +31,13 @@ public class CarService {
         return carRepository.save(car);
     }
 
-    public String finishPark(Long id) {
+    public Optional<String> finishPark(Long id) {
         Optional<Car> car = carRepository.findById(id);
         if(car.isPresent()){
             carRepository.deleteById(id);
-            return "Park finished with success";
+            return Optional.of("Car deleted");
         }
-        return "Car with Id: " + id + " doesn't exists";
+        return Optional.empty();
     }
 
     public Optional<Integer> getTotalTime(Long id) {
