@@ -1,6 +1,6 @@
 package br.com.parkizo.controller;
 
-import br.com.parkizo.controller.mapper.CarMapper;
+import br.com.parkizo.mapper.CarMapper;
 import br.com.parkizo.controller.request.CarRequest;
 import br.com.parkizo.controller.response.CarResponse;
 import br.com.parkizo.entity.Car;

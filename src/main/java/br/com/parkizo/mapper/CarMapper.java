@@ -1,4 +1,4 @@
-package br.com.parkizo.controller.mapper;
+package br.com.parkizo.mapper;
 
 import br.com.parkizo.controller.request.CarRequest;
 import br.com.parkizo.controller.response.CarResponse;
